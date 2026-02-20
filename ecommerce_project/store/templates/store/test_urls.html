@@ -1,0 +1,10 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+<h2>URL Resolution Test</h2>
+<ul>
+    {% for name, url in urls.items %}
+        <li><strong>{{ name }}:</strong> {{ url }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

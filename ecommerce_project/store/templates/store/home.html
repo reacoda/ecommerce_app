@@ -1,0 +1,26 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Home - eCommerce Platform{% endblock %}
+
+{% block content %}
+    <h2>Welcome to Our eCommerce Platform!</h2>
+    
+    {% if user.is_authenticated %}
+        <p>Hello, <strong>{{ user.username }}</strong>!</p>
+        
+        {% if user.groups.all.0.name == 'Vendors' %}
+            <p>You are logged in as a <strong>Vendor</strong>.</p>
+            <a href="{% url 'store:vendor_dashboard' %}" class="btn">Go to Vendor Dashboard</a>
+        {% elif user.groups.all.0.name == 'Buyers' %}
+            <p>You are logged in as a <strong>Buyer</strong>.</p>
+            <a href="{% url 'store:buyer_dashboard' %}" class="btn">Go to Buyer Dashboard</a>
+        {% endif %}
+        
+    {% else %}
+        <p>Welcome! Please login or create an account to get started.</p>
+        <div style="margin-top: 20px; display: flex; gap: 10px;">
+            <a href="{% url 'store:login' %}" class="btn">Login</a>
+            <a href="{% url 'store:register' %}" class="btn">Register</a>
+        </div>
+    {% endif %}
+{% endblock %}

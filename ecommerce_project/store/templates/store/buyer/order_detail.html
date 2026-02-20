@@ -1,0 +1,82 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Order #{{ order.id }}{% endblock %}
+
+{% block content %}
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'store:order_history' %}" style="color: #667eea; text-decoration: none;">
+            Back to Orders
+        </a>
+    </div>
+    
+    <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 30px; border-radius: 10px; margin-bottom: 30px;">
+        <h2 style="margin-bottom: 10px;"> Order Confirmed</h2>
+        <div style="font-size: 32px; font-weight: bold; margin-bottom: 10px;">Order #{{ order.id }}</div>
+        <div style="opacity: 0.9;">Placed on {{ order.order_date|date:"F d, Y at H:i" }}</div>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+        <!-- Order Items -->
+        <div>
+            <h3 style="margin-bottom: 20px;">Order Items</h3>
+            
+        {% for item_data in order_items_with_status %}
+            <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 15px; background: white;">
+                <div style="display: flex; gap: 20px;">
+                    <div style="background: #f5f5f5; width: 80px; height: 80px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 32px; flex-shrink: 0;">
+                        
+                    </div>
+                    
+                    <div style="flex: 1;">
+                        <h4 style="margin-bottom: 5px;">{{ item_data.order_item.product.name }}</h4>
+                        <div style="font-size: 12px; color: #999; margin-bottom: 10px;">
+                            Store: {{ item_data.order_item.product.store.name }}
+                        </div>
+                        <div style="display: flex; gap: 20px; font-size: 14px; color: #666;">
+                            <div>Quantity: <strong>{{ item_data.order_item.quantity }}</strong></div>
+                            <div>Price: <strong>R{{ item_data.order_item.price }}</strong> each</div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: right;">
+                        <div style="font-size: 18px; font-weight: bold; color: #333;">
+                            R{{ item_data.order_item.price|floatformat:2 }}
+                        </div>
+                        
+                        {% if not item_data.has_reviewed %}
+                            <a href="{% url 'store:review_add' product_pk=item_data.order_item.product.pk %}" 
+                            class="btn" 
+                            style="font-size: 12px; padding: 6px 12px; margin-top: 10px; display: inline-block;">
+                                 Leave Review
+                            </a>
+                        {% else %}
+                            <span style="font-size: 12px; color: #28a745; display: block; margin-top: 10px;">
+                                 Reviewed
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        
+        <!-- Order Summary -->
+        <div>
+            <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; background: #f9f9f9; position: sticky; top: 20px;">
+                <h3 style="margin-bottom: 20px;">Order Summary</h3>
+                
+                <div style="border-bottom: 1px solid #ddd; padding-bottom: 15px; margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span>Subtotal:</span>
+                        <span>R{{ order.total_price }}</span>
+                    </div>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; font-size: 20px; font-weight: bold;">
+                    <span>Total:</span>
+                    <span style="color: #28a745;">R{{ order.total_price }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

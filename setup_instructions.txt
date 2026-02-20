@@ -1,0 +1,86 @@
+DJANGO ECOMMERCE APPLICATION - SETUP INSTRUCTIONS
+==================================================
+
+QUICK START GUIDE
+-----------------
+
+1. PREREQUISITES
+   - Python 3.12 or higher
+   - MariaDB 11.2 or higher
+   - pip package manager
+
+2. DATABASE SETUP
+   
+   a) Install MariaDB from: https://mariadb.org/download/
+   
+   b) Open MySQL client:
+      mysql -u root -p
+   
+   c) Create database:
+      CREATE DATABASE ecommerce_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+      CREATE USER 'ecommerce_user'@'localhost' IDENTIFIED BY 'ecommerce_password123';
+      GRANT ALL PRIVILEGES ON ecommerce_db.* TO 'ecommerce_user'@'localhost';
+      FLUSH PRIVILEGES;
+      EXIT;
+
+3. PROJECT SETUP
+   
+   a) Navigate to project folder:
+      cd ecommerce_project
+   
+   b) Create virtual environment:
+      python -m venv venv
+   
+   c) Activate virtual environment:
+      Windows: venv\Scripts\activate
+      Mac/Linux: source venv/bin/activate
+   
+   d) Install dependencies:
+      pip install -r requirements.txt
+
+4. CONFIGURE SETTINGS
+   
+   a) Copy .env.example to .env:
+      cp .env.example .env
+   
+   b) Edit .env with your database password
+
+5. RUN MIGRATIONS
+   
+   python manage.py makemigrations
+   python manage.py migrate
+
+6. CREATE ADMIN USER
+   
+   python manage.py createsuperuser
+   (Follow prompts)
+
+7. CREATE TEST USERS
+   
+   See README.md for Python shell commands to create test vendor and buyer accounts
+
+8. START SERVER
+   
+   python manage.py runserver
+   
+   Visit: http://127.0.0.1:8000/
+
+TEST ACCOUNTS (after running setup script):
+-------------------------------------------
+Admin: admin / admin123
+Vendor: vendor1 / password123
+Buyer: buyer1 / password123
+
+FEATURES TO TEST:
+-----------------
+ Vendor: Create stores and products
+ Buyer: Browse, add to cart, checkout
+ Reviews: Leave reviews on purchased products
+ Password Reset: Test forgot password flow
+
+TROUBLESHOOTING:
+----------------
+- If migrations fail, ensure MariaDB service is running
+- If mysqlclient error, pymysql is configured in __init__.py
+- Check .env file has correct database credentials
+- Ensure venv is activated before running commands

@@ -1,0 +1,29 @@
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# Python
+*.pyc
+*.pyo
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+.env
+staticfiles/
+media/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+data_backup.json
+
+.env

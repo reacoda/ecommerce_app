@@ -1,0 +1,43 @@
+{% extends 'store/base.html' %}
+
+{% block title %}My Stores{% endblock %}
+
+{% block content %}
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>My Stores</h2>
+        <a href="{% url 'store:vendor_store_create' %}" class="btn">+ Create New Store</a>
+    </div>
+    
+    {% if stores %}
+        <div style="display: grid; gap: 20px;">
+            {% for store in stores %}
+                <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; background: #f9f9f9;">
+                    <h3 style="color: #667eea; margin-bottom: 10px;">{{ store.name }}</h3>
+                    <p style="color: #666; margin-bottom: 15px;">{{ store.description|truncatewords:30 }}</p>
+                    
+                    <div style="font-size: 12px; color: #999; margin-bottom: 15px;">
+                        Created: {{ store.created_at|date:"M d, Y" }}
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <a href="{% url 'store:vendor_store_detail' pk=store.pk %}" 
+                           class="btn" 
+                           style="font-size: 14px; padding: 8px 16px;">
+                           View Details
+                        </a>
+                        <a href="{% url 'store:vendor_product_add' store_pk=store.pk %}" class="btn" style="font-size: 14px; padding: 8px 16px; background: #28a745;">Add Product</a>
+                        <a href="#" class="btn" style="font-size: 14px; padding: 8px 16px; background: #ffc107; color: #333;">Edit</a>
+                        <a href="#" class="btn btn-danger" style="font-size: 14px; padding: 8px 16px;">Delete</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div style="text-align: center; padding: 40px; background: #f9f9f9; border-radius: 8px;">
+            <p style="font-size: 18px; color: #666; margin-bottom: 20px;">
+                You don't have any stores yet.
+            </p>
+            <a href="{% url 'store:vendor_store_create' %}" class="btn">Create Your First Store</a>
+        </div>
+    {% endif %}
+{% endblock %}

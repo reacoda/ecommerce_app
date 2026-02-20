@@ -1,0 +1,58 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Edit Product{% endblock %}
+
+{% block content %}
+    <h2>Edit Product</h2>
+    
+    <div style="margin-bottom: 20px; padding: 15px; background: #f0f4ff; border-radius: 8px;">
+        <strong>Store:</strong> {{ product.store.name }}<br>
+        <span style="color: #666; font-size: 14px;">Editing: {{ product.name }}</span>
+    </div>
+    
+    <form method="POST" style="max-width: 600px;">
+        {% csrf_token %}
+        
+        <div style="margin-bottom: 15px;">
+            <label for="name" style="display: block; margin-bottom: 5px; font-weight: 500;">
+                Product Name: <span style="color: red;">*</span>
+            </label>
+            <input type="text" id="name" name="name" required
+                   value="{{ product.name }}"
+                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px;">
+        </div>
+        
+        <div style="margin-bottom: 15px;">
+            <label for="description" style="display: block; margin-bottom: 5px; font-weight: 500;">
+                Description: <span style="color: red;">*</span>
+            </label>
+            <textarea id="description" name="description" required rows="4"
+                      style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; resize: vertical;">{{ product.description }}</textarea>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+            <div>
+                <label for="price" style="display: block; margin-bottom: 5px; font-weight: 500;">
+                    Price (R): <span style="color: red;">*</span>
+                </label>
+                <input type="number" id="price" name="price" required step="0.01" min="0.01"
+                       value="{{ product.price }}"
+                       style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px;">
+            </div>
+            
+            <div>
+                <label for="stock" style="display: block; margin-bottom: 5px; font-weight: 500;">
+                    Stock Quantity: <span style="color: red;">*</span>
+                </label>
+                <input type="number" id="stock" name="stock" required min="0"
+                       value="{{ product.stock }}"
+                       style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px;">
+            </div>
+        </div>
+        
+        <div style="display: flex; gap: 10px;">
+            <button type="submit" class="btn">Update Product</button>
+            <a href="{% url 'store:vendor_products_list' %}" class="btn" style="background: #6c757d;">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

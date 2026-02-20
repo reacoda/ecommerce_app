@@ -1,0 +1,39 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Order History{% endblock %}
+
+{% block content %}
+    <h2> My Orders</h2>
+    
+    {% if orders %}
+        <div style="margin-top: 30px;">
+            {% for order in orders %}
+                <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 15px; background: white;">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                        <div>
+                            <h3 style="color: #667eea; margin-bottom: 5px;">Order #{{ order.id }}</h3>
+                            <div style="font-size: 14px; color: #999;">
+                                Placed on {{ order.order_date|date:"M d, Y at H:i" }}
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 24px; font-weight: bold; color: #28a745;">
+                                R{{ order.total_price }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="{% url 'store:order_detail' pk=order.pk %}" class="btn" style="font-size: 14px; padding: 8px 16px;">
+                        View Details
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div style="text-align: center; padding: 60px; background: #f9f9f9; border-radius: 10px; margin-top: 30px;">
+            <div style="font-size: 80px; margin-bottom: 20px;">📦</div>
+            <h3 style="color: #666; margin-bottom: 20px;">No orders yet</h3>
+            <a href="{% url 'store:products_browse' %}" class="btn">Start Shopping</a>
+        </div>
+    {% endif %}
+{% endblock %}

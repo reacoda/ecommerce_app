@@ -1,0 +1,71 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Browse Products{% endblock %}
+
+{% block content %}
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h2> Browse Products</h2>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'store:cart_view' %}" class="btn">
+                 View Cart
+            </a>
+        {% endif %}
+    </div>
+    
+    {% if products %}
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+            {% for product in products %}
+                <div style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; background: white; transition: transform 0.2s, box-shadow 0.2s;">
+                    <div style="background: #f5f5f5; height: 150px; border-radius: 8px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                        
+                    </div>
+                    
+                    <h3 style="color: #333; margin-bottom: 10px; font-size: 18px;">{{ product.name }}</h3>
+                    
+                    <div style="font-size: 12px; color: #999; margin-bottom: 10px;">
+                        Store: <strong>{{ product.store.name }}</strong>
+                    </div>
+                    
+                    <p style="color: #666; font-size: 14px; margin-bottom: 15px; min-height: 60px;">
+                        {{ product.description|truncatewords:15 }}
+                    </p>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <div style="font-size: 24px; font-weight: bold; color: #28a745;">
+                            R{{ product.price }}
+                        </div>
+                        <div style="font-size: 12px; color: {% if product.stock < 10 %}#dc3545{% else %}#666{% endif %};">
+                            Stock: {{ product.stock }}
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 8px;">
+                        <a href="{% url 'store:product_detail' pk=product.pk %}" 
+                           class="btn" 
+                           style="flex: 1; font-size: 14px; padding: 10px; text-align: center;">
+                            View Details
+                        </a>
+                        
+                        {% if request.user.is_authenticated and request.user.groups.all.0.name == 'Buyers' and product.stock > 0 %}
+                            <form method="POST" action="{% url 'store:cart_add' product_pk=product.pk %}" style="flex: 1;">
+                                {% csrf_token %}
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit" class="btn" style="width: 100%; background: #28a745; font-size: 14px; padding: 10px;">
+                                     Add to Cart
+                                </button>
+                            </form>
+                        {% elif product.stock == 0 %}
+                            <button class="btn" disabled style="flex: 1; background: #ccc; cursor: not-allowed; font-size: 14px; padding: 10px;">
+                                Out of Stock
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div style="text-align: center; padding: 60px; background: #f9f9f9; border-radius: 10px;">
+            <p style="font-size: 20px; color: #666;">No products available yet.</p>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Buyer Dashboard{% endblock %}
+
+{% block content %}
+    <h2> Buyer Dashboard</h2>
+    
+    <p>Welcome, <strong>{{ user.username }}</strong>!</p>
+    
+    <div style="margin-top: 30px;">
+        <h3 style="color: #667eea; margin-bottom: 15px;">Quick Actions</h3>
+        <div style="display: grid; gap: 15px;">
+            <a href="{% url 'store:products_browse' %}" class="btn">Browse Products</a>
+            <a href="{% url 'store:cart_view' %}" class="btn">View My Cart</a>
+            <a href="{% url 'store:order_history' %}" class="btn">My Orders</a>
+            <a href="#" class="btn">My Reviews</a>
+        </div>
+    </div>
+    
+    <p style="margin-top: 30px; color: #666; font-style: italic;">
+         More features coming soon!
+    </p>
+{% endblock %}

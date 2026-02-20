@@ -1,0 +1,57 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Vendor Dashboard{% endblock %}
+
+{% block content %}
+    <h2>Vendor Dashboard</h2>
+
+    <p>Welcome back, <strong>{{ user.username }}</strong>!</p>
+
+    <!-- Store Management Section -->
+    <div style="margin-top: 30px; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 20px;">
+        <h3 style="color: #667eea; margin-bottom: 20px; border-bottom: 2px solid #667eea; padding-bottom: 10px;">
+             Store Management
+        </h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <a href="{% url 'store:vendor_store_create' %}" class="btn" style="text-align: center; padding: 15px;">
+                 Create New Store
+            </a>
+            <a href="{% url 'store:vendor_stores_list' %}" class="btn" style="text-align: center; padding: 15px; background: #764ba2;">
+                 View My Stores
+            </a>
+        </div>
+    </div>
+
+    <!-- Product Management Section -->
+    <div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 20px;">
+        <h3 style="color: #667eea; margin-bottom: 20px; border-bottom: 2px solid #667eea; padding-bottom: 10px;">
+             Product Management
+        </h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <a href="{% url 'store:vendor_stores_list' %}" class="btn" style="text-align: center; padding: 15px; background: #28a745;">
+                 Add Product (Select Store First)
+            </a>
+            <a href="{% url 'store:vendor_products_list' %}" class="btn" style="text-align: center; padding: 15px; background: #20c997;">
+                 View All My Products
+            </a>
+        </div>
+    </div>
+
+    <!-- Quick Stats Section -->
+    <div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h3 style="color: #667eea; margin-bottom: 20px; border-bottom: 2px solid #667eea; padding-bottom: 10px;">
+             Quick Info
+        </h3>
+        <div style="background: #f0f4ff; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+            <p style="margin: 0; color: #666;">
+                💡 <strong>Getting Started:</strong> First create a store, then add products to your store!
+            </p>
+            <ol style="color: #666; margin-top: 10px;">
+                <li>Click <strong>"Create New Store"</strong> to set up your store</li>
+                <li>Click <strong>"View My Stores"</strong> to manage your stores</li>
+                <li>From your store page, click <strong>"Add Product"</strong></li>
+                <li>Manage all products from <strong>"View All My Products"</strong></li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
