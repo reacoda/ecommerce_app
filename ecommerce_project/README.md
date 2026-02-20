@@ -59,7 +59,11 @@ A full-featured eCommerce platform built with Django, featuring vendor and buyer
 
 ### Step 1: Clone/Extract Project
 ```bash
-cd path/to/ecommerce_app/ecommerce_project
+# Clone from Github
+git clone https://github.com/reacoda/ecommerce_app.git
+
+# Navigate to project directory
+cd ecommerce_app
 ```
 
 ### Step 2: Create Virtual Environment
