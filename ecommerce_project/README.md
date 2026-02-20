@@ -91,6 +91,7 @@ pip install -r requirements.txt
 ### Step 5: Configure Database
 
 1. **Install MariaDB** (if not already installed)
+    - Download from: https://mariadb.org/download/
 
 2. **Create database and user:**
 ```bash
@@ -105,24 +106,71 @@ EXIT;
 ```
 
 3. **Create `.env` file** (copy from `.env.example`):
+   
+**Windows**
+```bash
+copy .env.example .env
+```
+
+**Mac/Linux:**
 ```bash
 cp .env.example .env
 ```
 
-4. **Edit `.env`** with your database credentials
+4. **Edit `.env` file** with your database credentials
 
-### Step 6: Run Migrations
+   Open `.env` in a text editor and update:
+```env
+# Database Configuration
+DB_NAME=ecommerce_db
+DB_USER=ecommerce_user
+DB_PASSWORD=ecommerce_password123  # ← Change this to your password
+DB_HOST=localhost
+DB_PORT=3306
+
+# Email Configuration (Optional - for sending real emails)
+EMAIL_HOST_USER=your-email@gmail.com
+EMAIL_HOST_PASSWORD=your-gmail-app-password
+```
+**Important:** The `.env` file must be created and configured BEFORE running migrations!
+
+### Step 6: Update Django Settings (if needed)
+
+The `settings.py` file is already configured to read from `.env` file.
+No manual changes needed if you followed Step 5.
+
+Verify your `settings.py` has this configuration:
+```python
+from decouple import config
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('DB_NAME', default='ecommerce_db'),
+        'USER': config('DB_USER', default='ecommerce_user'),
+        'PASSWORD': config('DB_PASSWORD', default='ecommerce_password123'),
+        'HOST': config('DB_HOST', default='localhost'),
+        'PORT': config('DB_PORT', default='3306'),
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': 'utf8mb4',
+        },
+    }
+}
+```
+
+### Step 7: Run Migrations
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-### Step 7: Create Superuser
+### Step 8: Create Superuser
 ```bash
 python manage.py createsuperuser
 ```
 
-### Step 8: Create Groups & Test Users
+### Step 9: Create Groups & Test Users
 ```bash
 python manage.py shell
 ```
@@ -159,7 +207,7 @@ print("Setup complete!")
 exit()
 ```
 
-### Step 9: Run Development Server
+### Step 10: Run Development Server
 ```bash
 python manage.py runserver
 ```
